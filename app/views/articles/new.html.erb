@@ -1,0 +1,17 @@
+<h2>Add articles</h2>
+<%=form_for @article do |f|%>
+	
+	<label>Title:</label><br>
+	<%= f.text_field :title, placeholder:"Enter the title", autofocus:true %><br>
+
+	<%=f.label :category%><br>
+	<%=f.collection_check_boxes :category_ids,Category.all, :id, :name%>
+
+	<%#= f.collection_select :category_id, Category.all, :id, :name, prompt:"Select Category"  %><br>
+
+	<label>Body:</label><br>
+	<%= f.text_area :body%><br> 
+
+	<%= f.submit%> or <%= link_to "back",articles_path%>
+
+<%end%>

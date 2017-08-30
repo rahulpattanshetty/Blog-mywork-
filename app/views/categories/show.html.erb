@@ -1,0 +1,11 @@
+<h2>Category</h2>
+<%= @category.name%><br>
+<%@category.articles.each do |article|%>
+	<ul>
+		<li><%= link_to article.title,article_path(article.id)%></li>
+	</ul>
+<%end%>
+<%if user_signed_in?%>
+<%=link_to "edit",edit_category_path(@category.id) %>
+<%=link_to "delete",category_path(@category.id) ,method: :delete,data:{confirm:"Are you sure?"}%>
+<%end%> 

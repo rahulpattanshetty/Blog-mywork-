@@ -1,0 +1,47 @@
+<%= link_to "Articles",articles_path%>
+<h2>Articles</h2>
+<p>Name:<%= @article.title %><br>
+Body:<%= @article.body%></p>
+
+<h3>Comments</h3>
+<%if user_signed_in? && current_user.is_admin%>
+	<% @reviews.each do |review|%>
+	<ul>
+		<li><%=review.body%>(<%=review.rating%>)
+		<%=link_to "delete", review_path(review.id), method: :delete, data:{confirm:"Are you sure?"}%>
+		<%=link_to "edit", edit_review_path(review.id)%>
+
+		</li>
+	</ul>
+	<%end%>
+<%else%>
+<h3>Listings of reviews</h3>
+	<%@reviews.each do |review|%>
+	<ul>
+		<li><%=review.body%>(<%=review.rating%>)
+
+		<%if review.user_id==current_user.id && review.article_id==@article.id%>
+		<%=link_to "edit",edit_review_path(review.id)%>
+		<%=link_to "delete",review_path(review.id), method: :delete, data:{confirm:"Are you sure?"}%>
+		<%end%>
+		</li>
+	</ul>
+	<%end%>
+<%end%>
+
+
+
+<%=form_for @review do |f|%>
+<label>Review</label>
+<%=f.text_field :body%><br>
+<label>Rating:</label>
+<%=f.number_field :rating, min:1, max:5%><br>
+
+<%=f.hidden_field :article_id, value:@article.id%>
+<%=f.submit "Add Review"%>
+<%end%>
+
+<% if user_signed_in?%>
+<%= link_to "edit",edit_article_path(@article.id)%>
+<%= link_to "destroy",article_path(@article.id), method: :delete, data:{confirm:"Are you sure?"}%>
+<%end%>

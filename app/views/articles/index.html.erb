@@ -1,0 +1,18 @@
+<h2>List of Articles</h2>
+<%if @articles.empty? %>
+	<p>Articles not found</p>
+<%else%>
+	<% @articles.each do |article|%>
+		<ul>
+		<li><%= link_to article.title,article_path(article.id) %> 
+		<%article.categories.each do |category|%>
+		<%= link_to category.name,category%>
+		<%end%>
+
+		</li>
+		</ul>
+	<%end%>
+<%end%>
+<%if can? :create, Article.new%>
+<%=link_to "Add Article",new_article_path%>
+<%end%>
